@@ -9,6 +9,11 @@ You must have a specific version of docker on your system for OpenShift to work.
 sudo dnf install docker docker-compose -y
 ```
 
+### Start Docker Service
+```shell
+sudo systemctl start docker
+```
+
 ### OpenShift
 For OpenShift to run on your desktop environment, an insecure registry has to be added to your docker sysconfig, and changes need to be made to your firewall. If you want more information on running OpenShift, refer to [this page.](https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md) The following commands will properly configure your environment and install OpenShift:
 ```shell
@@ -30,7 +35,7 @@ sudo dnf update -y
 To communicate with the components of ChRIS, you need a python function called pfurl. The easiest way to get it working is as follows:
 ```shell
 git clone https://github.com/FNNDSC/pfurl.git
-sudo dnf install gcc
+sudo dnf install gcc redhat-rpm-config python2-devel python3-devel
 pushd pfurl/
 sudo pip3 install .
 popd   
@@ -51,7 +56,7 @@ In order to run this script, a version of the ChRIS Ultron Backend, Pfioh, and P
 Options:
     --deps                              This will trigger the script to install and configure the
                                             necessary dependencies on your system
-                                            WARNING: this will configure your firewall settings, 
+                                            WARNING: this will configure your firewall settings,
                                             change your seLinux to permissive, clone git repos,
                                             and install software on your system. If you dont want
                                             to do this, or would rather do it yourself, refer to
@@ -61,12 +66,12 @@ Options:
                                             a new shell window. This is mainly for debugging. If you
                                             want to change pfcon to interactive mode along with a
                                             different service, you must put pfcon first!
-                                            Accepted arguments: 
+                                            Accepted arguments:
                                                 pfcon [pman pfioh]   (pman pfioh optional)
                                                 pfioh pman           (one or both in any order)
                                                 all                  (equivalent to: pfcon pman pfioh)
 
-    --test                              This will run tests against the components of the system to 
+    --test                              This will run tests against the components of the system to
                                             make sure they are working correctly, then it will exit
                                             with code 0
 
