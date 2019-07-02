@@ -24,12 +24,16 @@ RANGE = int(config.get('ConfigInfo', 'RANGE'))
 SIZE = config.get('ConfigInfo', 'SIZE')
 TIMEOUT = config.get('ConfigInfo', 'TIMEOUT')
 THRESHOLD = config.get('ConfigInfo', 'THRESHOLD')
-PATH = os.getcwd()
+PATH = os.path.dirname(os.getcwd())
 WAIT = config.get('ConfigInfo', 'WAIT')
+PMAN_IP = config.get('ConfigInfo', 'PMAN_IP')
+PFIOH_IP = config.get('ConfigInfo', 'PFIOH_IP')
+
+
 test_setup.check()
 
 def job_delete():
-    cmd = 'bash %s/run_pman_delete %s ' % (PATH, JID)
+    cmd = 'bash %s/scripts/run_pman_delete %s %s ' % (PATH, PFIOH_IP,JID )
     command = subprocess.Popen(cmd,shell=True, stdout=subprocess.PIPE)
     output = command.stdout.read()                                                     
     output = str(output, "utf-8")
@@ -43,14 +47,14 @@ for x in range(1, RANGE + 1):
     print("Iteration " + str(x))
     print("_________________")
 
-    cmd = 'bash %s/run_pfioh_push %s %s' % (PATH, JID, SIZE)
+    cmd = 'bash %s/scripts/run_pfioh_push %s %s %s' % (PATH, PFIOH_IP, JID, SIZE)
     command = subprocess.Popen("timeout " + TIMEOUT + " " + cmd,shell=True, stdout=subprocess.PIPE)
     print(cmd)  	
     output = command.stdout.read()                                                     
     output = str(output, "utf-8")
     if "true" in output:
         s_rate = s_rate + 1
-        cmd = 'bash %s/run_pman %s ' % (PATH, str(JID))
+        cmd = 'bash %s/scripts/run_pman %s %s' % (PATH, PMAN_IP,str(JID))
         print(cmd)
         command = subprocess.Popen("timeout " + TIMEOUT + " " + cmd,shell=True, stdout=subprocess.PIPE)
         output = command.stdout.read()                                                     
@@ -59,7 +63,7 @@ for x in range(1, RANGE + 1):
             s_rate2 = s_rate2 + 1
             num = 0
             while num<20:
-                cmd = 'bash %s/run_pman_status %s' % (PATH, JID)
+                cmd = 'bash %s/scripts/run_pman_status %s %s' % (PATH, PMAN_IP,JID)
                 print(cmd)
                 command = subprocess.Popen("timeout " + TIMEOUT + " " +  cmd,shell=True, stdout=subprocess.PIPE)
                 output = command.stdout.read()                                                     
@@ -72,7 +76,7 @@ for x in range(1, RANGE + 1):
                     num = num + 1
             if "finished" in output:
                 s_rate3 = s_rate3 + 1   
-                cmd = 'bash %s/run_pfioh_pull %s %s' % (PATH, JID, SIZE)
+                cmd = 'bash %s/scripts/run_pfioh_pull %s %s %s' % (PATH, PFIOH_IP ,JID, SIZE)
                 command = subprocess.Popen(cmd,shell=True, stdout=subprocess.PIPE)
                 print(cmd)  	
                 output = command.stdout.read()                                                     

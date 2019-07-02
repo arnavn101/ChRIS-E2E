@@ -6,7 +6,7 @@ pfurl --verb POST --httpResponseBodyParse --raw --http $1/api/v1/cmd --msg \
             \"key\":         \"$2\"
         },
         \"local\": {
-            \"path\":         \"/tmp/pfioh-test\"
+            \"path\":         \"/tmp/$3\"
         },
         \"transport\": {
             \"mechanism\":    \"compress\",
