@@ -63,11 +63,10 @@ def create():
     print ("done creating files\n")
 
 def clean():
-
     if (os.path.exists('/tmp/share')):
         for x in os.listdir('/tmp/share/'):
             cmd = 'sudo rm -rf /tmp/share/%s' % x
-            subprocess.call(shlex.split(cmd), shell=False)
+            subprocess.call(cmd, shell=False)
 
     
 def make_file(fid, size, place):

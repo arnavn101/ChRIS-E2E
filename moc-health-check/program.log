@@ -1,0 +1,19 @@
+DEBUG:root:job_delete
+<<<<<<< HEAD
+DEBUG:root:run_pfioh_push
+DEBUG:root:pman_run
+<<<<<<< HEAD
+DEBUG:root:run_pman_status
+DEBUG:root:run_pman_status
+DEBUG:root:run_pman_status
+DEBUG:root:run_pman_status
+DEBUG:root:run_pman_status
+DEBUG:root:run_pman_status
+DEBUG:root:job_delete
+DEBUG:root:run_pfioh_push
+DEBUG:root:pman_run
+DEBUG:root:run_pman_status
+=======
+>>>>>>> c0df3c6... made changes
+=======
+>>>>>>> bbeeddc... Made jenkins changes

@@ -1,0 +1,35 @@
+- pipeline: "Build"
+  trigger_mode: "SCHEDULED"
+  ref_name: "master"
+  ref_type: "BRANCH"
+  start_date: "2019-07-02T18:00:00.000Z"
+  delay: 5
+  run_always: true
+  trigger_condition: "ALWAYS"
+  actions:
+  - action: "Execute: python3 moc-health-check/health-checker.py"
+    type: "BUILD"
+    working_directory: "/buddy/chris-e2e"
+    docker_image_name: "library/python"
+    docker_image_tag: "3.5"
+    execute_commands:
+    - "cd moc-health-check"
+    - ""
+    - "python3 health_checker.py"
+    - ""
+    - "source export.sh"
+    setup_commands:
+    - "pip3 install pfurl"
+    cached_dirs:
+    - "/root/.cache/pip"
+    mount_filesystem_path: "/buddy/chris-e2e"
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
+  - action: "Send Email notification"
+    type: "EMAIL"
+    title: "There is a problem in MOC framework "
+    content: "Issue in following aspects : $error\r\n"
+    recipients: "arnav.nidumolu@gmail.com\r\n13065729n@gmail.com"
+    trigger_variable_value: "error"
+    trigger_variable_key: "error"
+    trigger_condition: "VAR_IS_NOT"
