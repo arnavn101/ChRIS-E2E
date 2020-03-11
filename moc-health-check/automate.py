@@ -14,8 +14,9 @@ THRESHOLD = int(health_check.get_threshold())
 # Finding success rate of each aspect of ChRIS Framework
 success_pfioh_push, success_pman_run, success_pman_status, success_pfioh_pull = health_check.prog_flow(RANGE, 2, "moc-health-check/error.log",1,0,0,0,0)
 
-print("^^^^^^^^^^^^^^^^^^^^")
-print("success_pfioh_push", success_pfioh_push)
+print("-----------------------------------------------")
+print("------------ Calculating success rate ---------")
+print("-----------------------------------------------")
 # Calculating success rate
 success_pfioh_push = int((success_pfioh_push/RANGE)*100)
 success_pman_run = int((success_pman_run/RANGE)*100)
@@ -30,8 +31,12 @@ print("------------- STATUS --------------------------")
 print(status)
 print("-----------------------------------------------")
 print("------------- MESSAGE --------------------------")
-print(msg)
-
 # Compiling errors to an environment variable
 health_check.env_write(status, msg)
+print(msg)
+if status == False:
+    print("Healthcheck failed. Exceeding backoff limits.")
+    raise Exception
+
+
 

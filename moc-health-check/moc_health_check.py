@@ -62,7 +62,7 @@ class Health_Checker:
                     authToken                   = self.password
         )
         response = dataComs()
-        print("------------------------------------- \nDeleting old job")
+        print("------------------------------------- Deleting old job")
         j_payload = json.loads(response)
         print(j_payload)
         return j_payload
@@ -129,22 +129,17 @@ class Health_Checker:
 
         # Iterate through list of methods and calculate the success rate for each aspect of ChRIS framework
         for element in list_functions:
-            print("^^^^^^^^^^^^^^^  at start ele: ", element)
             
             if self.verify(element(), element):
-                print("---------------------- ele: ",element)
-                
                 dict_functions[element] += 1
-                print("------------------- : ",tuple(dict_functions.values()))
+                print("---------------------- element: ",element, "  ---> ", tuple(dict_functions.values()))
                 if self.isComplete(tuple(dict_functions.values())):
                     return tuple(dict_functions.values())
 
             elif attempts > max_value:
-                print("Max: ", max_value)
-                print("attempts: ", attempts)
                 return tuple(dict_functions.values())
             else:
-                print("!!!!!!!!!!!!!!!! else")
+                print("----------------------- Something went wrong in getting response")
                 self.log_error(path_error_file, str(element()))
                 time.sleep(self.backoff(self.attempts,max_value))
                 return self.prog_flow(RANGE,max_value, path_error_file, attempts+1, dict_functions[list(dict_functions)[0]],dict_functions[list(dict_functions)[1]],dict_functions[list(dict_functions)[2]],dict_functions[list(dict_functions)[3]])
@@ -293,6 +288,7 @@ class Health_Checker:
             state = False
         if threshold > success_pfioh_pull:
             msg += ", Pfioh Pull"
+            state = False
         return state, msg
     
     
